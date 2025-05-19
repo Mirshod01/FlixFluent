@@ -78,8 +78,6 @@ const Index = () => {
   // Updated YouTube demo videos that are known to work
   const demoUrls = [
     "https://youtu.be/K3PDRB9R-YI?si=_ZHKj-EBSun9SsSp", // Simple Korean phrase video
-    "https://youtu.be/K3PDRB9R-YI?si=_ZHKj-EBSun9SsSp", // Simple Korean phrase video
-    "https://youtu.be/K3PDRB9R-YI?si=_ZHKj-EBSun9SsSp", // Simple Korean phrase video
     // "https://youtu.be/IYpojR8gc2c?si=lgiP_O8hWuYHqpBs", // Korean travel phrases
     // "https://youtu.be/eGVLXtl9Dh4?si=D26dhHZ8HcU82ULL"  // Korean conversation basics
   ];
