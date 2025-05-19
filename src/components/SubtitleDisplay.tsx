@@ -40,7 +40,8 @@ export const SubtitleDisplay: React.FC<SubtitleDisplayProps> = ({ subtitle, onWo
   const words = segmentKoreanText(subtitle);
   
   return (
-    <div className="subtitles-container bg-black/70 p-4 rounded-md max-w-3xl mx-auto">
+    <div   style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }} className="subtitles-container  bg-black/70 p-4 rounded-md max-w-3xl mx-auto">
+    {/* <div style={{  left:"50% ", transform:"translateX(-50%)" }} className="subtitles-container bg-black/70 p-4 rounded-md max-w-3xl mx-auto"> */}
       <div className="subtitle-text text-white text-2xl text-center flex flex-wrap justify-center gap-1">
         {words.map((word, index) => {
           const translation = koreanDictionary[word] || 'Translation not available';
