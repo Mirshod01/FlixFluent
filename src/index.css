@@ -1,0 +1,371 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 100% 41%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    --radius: 0.5rem;
+  }
+}
+
+body {
+  @apply bg-background text-foreground;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}
+
+.subtitles-container {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+}
+
+.subtitle-text {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: inline-block;
+  max-width: 80%;
+}
+
+.word-segment {
+  display: inline-block;
+  padding: 0 4px;
+  cursor: pointer;
+  margin: 0 2px;
+  position: relative;
+}
+
+.word-segment:hover {
+  background-color: rgba(210, 0, 0, 0.9);
+  border-radius: 4px;
+}
+
+.korean-word {
+  background-color: transparent;
+  border-radius: 4px;
+  padding: 2px 4px;
+  transition: background-color 0.2s;
+}
+
+.korean-word:hover {
+  background-color: rgba(210, 0, 0, 0.9);
+  color: white;
+}
+
+.korean-word.highlighted {
+  background-color: rgba(210, 0, 0, 0.9);
+  color: white;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 5px;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.word-segment:hover .tooltip {
+  opacity: 1;
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 0;
+  z-index: 20;
+}
+
+.progress-bar {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #d20000;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+.control-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  margin: 0 10px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.time-display {
+  color: white;
+  font-size: 0.8rem;
+  margin: 0 10px;
+}
+
+.playback-rate {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.details-panel {
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  color: white;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.word-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.korean-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-right: 15px;
+  padding: 5px 10px;
+  background-color: #d20000;
+  border-radius: 6px;
+}
+
+.romanization {
+  font-size: 1rem;
+  color: #aaa;
+  margin-right: 15px;
+}
+
+.part-of-speech {
+  font-size: 0.9rem;
+  padding: 3px 8px;
+  background-color: #333;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.meanings {
+  font-size: 1.2rem;
+  color: #eee;
+  margin: 10px 0;
+}
+
+.deconstruction-section {
+  margin-top: 30px;
+}
+
+.deconstruction-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #d20000;
+}
+
+.component {
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+.component-item {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.component-korean {
+  font-weight: bold;
+  margin-right: 10px;
+  min-width: 80px;
+}
+
+.component-explanation {
+  color: #ddd;
+}
+
+.url-input-container {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  display: flex;
+  width: 80%;
+  max-width: 600px;
+}
+
+.url-input {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 4px 0 0 4px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.url-submit {
+  padding: 10px 15px;
+  background-color: #d20000;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.url-submit:hover {
+  background-color: #ff0000;
+}
+
+.fullscreen-button {
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.subtitle-word {
+  display: inline-block;
+  margin: 0 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid transparent;
+}
+
+.subtitle-word:hover {
+  background-color: #d20000;
+  border-radius: 3px;
+  border-bottom: 1px solid white;
+}
+
+/* Korean Analyzer */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #d20000;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.examples-list {
+  margin-top: 20px;
+}
+
+.example-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.example-korean {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.example-english {
+  color: #ccc;
+  font-style: italic;
+}
