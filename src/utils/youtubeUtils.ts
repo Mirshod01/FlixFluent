@@ -44,24 +44,28 @@ export const extractYoutubeVideoId = (url: string): string | null => {
  */
 export const fetchYoutubeSubtitles = async (videoId: string, language = 'auto'): Promise<Array<{ start: number, end: number, text: string }>> => {
   try {
-    // console.log(`Fetching subtitles for YouTube video: ${videoId}, language: ${language}`);
-
-    // Skip the language detection step as it's causing issues
-    // Just fetch subtitles directly with the auto parameter
-    // const response = await fetch(`${PROXY_SERVER_URL}/api/subtitles?videoId=${videoId}&lang=${language}`);
-    // const response = await fetch(`${PROXY_SERVER_URL}/subtitles?videoId=${videoId}`);
-    let response;
-
-    // console.log('\n\n\n', response, 'response\n\n\n');
-
-    if (!response.ok) {
+    const response = await fetch(`${PROXY_SERVER_URL}/subtitles?videoId=${videoId}`);
+    if (response.status !== 200) {
       console.error(`Subtitle API returned status: ${response.status}`);
-      const errorData = await response.json();
-      // console.log("Subtitle API error details:", errorData);
-
-      // If no subtitles are found, try to generate them with OpenAI
-      // console.log("No subtitles found, generating fallback subtitles");
       return generateFallbackSubtitles(videoId);
+    }
+
+    const json = await response.json();
+    if (!json.subtitles || json.subtitles.length === 0) {
+      console.error("No subtitles found in response.");
+      return generateFallbackSubtitles(videoId);
+    }
+    const subtitles = json.subtitles.map((subtitle: any) => ({
+      start: subtitle.start,
+      end: subtitle.start + subtitle.dur,
+      text: subtitle.text
+    }));
+
+    if (subtitles || subtitles.length !== 0) {
+      console.error("No subtitles found in response.");
+      //add here translation subtitles
+      console.log('subtitles', subtitles)
+      return subtitles
     }
 
     const data = await response.json();
@@ -69,13 +73,6 @@ export const fetchYoutubeSubtitles = async (videoId: string, language = 'auto'):
       console.error("Error from subtitle API:", data.error);
       return generateFallbackSubtitles(videoId);
     }
-
-    if (!data.subtitles || data.subtitles.length === 0) {
-      console.error(`No subtitles found for language: ${language}`);
-      return generateFallbackSubtitles(videoId);
-    }
-
-    // console.log(`Successfully retrieved ${data.subtitles.length} subtitles`);
 
     return data.subtitles.map((subtitle: any) => ({
       start: parseFloat(subtitle.start),
@@ -131,22 +128,9 @@ export const fetchSubtitlesWithFallback = async (videoId: string, preferredLangu
  * Generate fallback subtitles when none are available from YouTube
  */
 async function generateFallbackSubtitles(videoId: string): Promise<Array<{ start: number, end: number, text: string }>> {
-  // console.log("Generating fallback subtitles for video:", videoId);
 
-  // For demo purposes, return some basic Korean phrases as fallback subtitles
-  // const fallbackSubtitles = [
-  //   { start: 0, end: 5, text: "안녕하세요" },
-  //   { start: 5, end: 10, text: "한국어 학습에 오신 것을 환영합니다" },
-  //   { start: 10, end: 15, text: "이 비디오는 한국어 학습을 위한 것입니다" },
-  //   { start: 15, end: 20, text: "오늘 우리는 기본 표현을 배울 것입니다" },
-  //   { start: 20, end: 25, text: "감사합니다" },
-  //   { start: 25, end: 30, text: "이것은 여러분이 한국어를 배우는데 도움이 될 것입니다" },
-  //   { start: 30, end: 35, text: "좋은 하루 되세요" },
-  //   { start: 35, end: 40, text: "다음 시간에 뵙겠습니다" },
-  //   { start: 40, end: 45, text: "안녕히 계세요" },
-  // ];
-
-  return fallbackSubtitles;
+  console.log('videoId', videoId)
+  return [];
 }
 
 /**
